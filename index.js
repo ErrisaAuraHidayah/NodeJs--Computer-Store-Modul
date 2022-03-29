@@ -10,6 +10,9 @@ app.use(cors())
 //admin
 app.use("/admin", require('./routes/admin-route'))
 
+//endpoint customer
+const customer = require('./routes/customer')
+app.use("/customer", customer)
 
 //run server
 const port = 3000
