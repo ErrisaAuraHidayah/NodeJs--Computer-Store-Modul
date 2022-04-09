@@ -15,6 +15,11 @@ const fs = require("fs")
 const models = require("../models/index")
 const customer = models.customer
 
+//import auth
+const auth = require("../auth")
+const jwt = require("jsonwebtoken")
+const SECRET_KEY = "BelajarNodeJSItuMenyengankan"
+
 
 //konfigurasi destination dan filename
 //config storage image
@@ -158,6 +163,30 @@ app.delete("/:id", async (req,res) => {
         })
     }
 
+})
+
+//ini untuk login
+app.post("/auth", async (req,res) => {
+    let data= {
+        username : req.body.username,
+        password : md5(req.body.password)
+    }
+    let result = await customer.findOne({where: data})
+    if(result){
+        let payload = JSON.stringify(result)
+        //generate token
+        let token = jwt.sign(payload, SECRET_KEY)
+        res.json({
+            logged: true,
+            data: result,
+            token: token
+        })
+    }else{
+        res.json({
+            logged : false,
+            message : "Invalid username or password"
+        })
+    }
 })
 
 module.exports = app
