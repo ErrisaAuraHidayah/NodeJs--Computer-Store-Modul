@@ -14,7 +14,7 @@ const auth = require("../auth")
 app.use(auth)
 
 //untuk menampilkan semua data transaksi
-app.get("/", async (req,res) => {
+app.get("/", auth, async (req,res) => {
     let result = await transaksi.findAll({
         include: [
             "customer",
@@ -46,17 +46,17 @@ app.get("/:customer_id", async (req,res) => {
 })
 
 //endpoint untuk menambahkan data transaksi baru
-app.post("/", async (req,res) => {
+app.post("/:customer_id", auth, async (req,res) => {
     let current = new Date().toISOString().split('T')[0]
     let data = {
-        customer_id: req.body.customer_id,
-        waktu: current,
+        customer_id: req.params.customer_id,
+        waktu: current
     }
     transaksi.create(data)
     .then(result => {
         let lastID = result.transaksi_id
         detail = req.body.detail_transaksi
-        detail.forEach(element => {
+        detail.foreach(element => {
             element.transaksi_id = lastID
         });
         console.log(detail);

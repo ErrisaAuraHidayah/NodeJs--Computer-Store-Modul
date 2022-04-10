@@ -18,7 +18,7 @@ const customer = models.customer
 //import auth
 const auth = require("../auth")
 const jwt = require("jsonwebtoken")
-const SECRET_KEY = "BelajarNodeJSItuMenyengankan"
+const SECRET_KEY = "BelajarNodeJSItuMenyenangkan"
 
 
 //konfigurasi destination dan filename

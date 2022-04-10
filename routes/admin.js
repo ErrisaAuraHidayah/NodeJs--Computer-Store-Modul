@@ -16,14 +16,14 @@ const admin = model.admin
 //import auth
 const auth = require("../auth")
 const jwt = require("jsonwebtoken")
-const SECRET_KEY = "BelajarNodeJSItuMenyengankan"
+const SECRET_KEY = "BelajarNodeJSItuMenyenangkan"
 
 //endpoint menampilkan semua data admin, method: GET, function: findAll()
-app.get("/", auth , (req,res) => {
+app.get("/", auth, (req,res) => {
     admin.findAll()
         .then(result => {
             res.json({
-                admin: result
+                admin : result
             })
         })
         .catch(error => {
@@ -32,6 +32,8 @@ app.get("/", auth , (req,res) => {
             })
         })
 })
+
+    
 
 //endpoint untuk menyimpan data admin, method: POST, function: create
 app.post("/", (req,res) => {
