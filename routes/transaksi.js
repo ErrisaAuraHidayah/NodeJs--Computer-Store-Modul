@@ -46,10 +46,10 @@ app.get("/:customer_id", async (req,res) => {
 })
 
 //endpoint untuk menambahkan data transaksi baru
-app.post("/:customer_id", auth, async (req,res) => {
+app.post("/", auth, async (req,res) => {
     let current = new Date().toISOString().split('T')[0]
     let data = {
-        customer_id: req.params.customer_id,
+        customer_id: req.body.customer_id,
         waktu: current
     }
     transaksi.create(data)

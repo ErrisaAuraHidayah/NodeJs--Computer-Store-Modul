@@ -2,6 +2,7 @@
 const express = require("express")
 const app = express()
 app.use(express.json())
+app.use(express.urlencoded({extended: false}))
  
 // import md5
 const md5 = require("md5")
@@ -81,7 +82,8 @@ app.post("/", upload.single("image"), (req,res) => {
         customer.create(data)
         .then(result => {
             res.json({
-                message: "data has been inserted"
+                message: "data has been inserted",
+                data: result
             })
         })
         .catch(error => {

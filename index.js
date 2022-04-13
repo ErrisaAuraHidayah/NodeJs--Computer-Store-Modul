@@ -20,6 +20,12 @@ app.use("/customer", customer)
 const transaksi = require('./routes/transaksi');
 app.use("/transaksi", transaksi)
 
+//endpoint product
+const product = require('./routes/product')
+app.use("/product", product)
+
+app.use(express.static(__dirname))
+
 //run server
 const port = 3000
 app.listen(port, ()=>{

@@ -58,14 +58,16 @@ app.post("/", (req,res) => {
 })
 
 //endpoint mengupdate data admin, method PUT, function: update
-app.put("/:id", (req,res) => {
+app.put("/:admin_id", (req,res) => {
     let param = {
-        admin_id : req.params.id
+        admin_id : req.params.admin_id
     }
     let data = {
         name : req.body.name,
         username : req.body.username,
-        password : md5(req.body.password)
+    }
+    if(req.body.password){
+        data.password = md5(req.body.password)
     }
 
     admin.update(data, {where: param})
@@ -82,9 +84,9 @@ app.put("/:id", (req,res) => {
 })
 
 //endpoint menghapus data admin, method: DELETE, function: destroy
-app.delete("/:id", (req,res) => {
+app.delete("/:admin_id", (req,res) => {
     let param = {
-        admin_id : req.params.id
+        admin_id : req.params.admin_id
     }
     admin.destroy({where: param})
         .then(result => {
@@ -118,7 +120,7 @@ app.post("/auth", async (req,res) => {
     }else{
         res.json({
             logged: false,
-            message : "Invalis username or password"
+            message : "Invalid username or password"
         })
     }
 })
