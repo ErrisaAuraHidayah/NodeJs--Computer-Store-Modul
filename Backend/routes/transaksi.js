@@ -25,7 +25,10 @@ app.get("/", auth, async (req,res) => {
             }
         ]
     })
-    res.json(result)
+    res.json({
+        count : result.length,
+        transaksi : result
+    })
 })
 
 //menampilkan data berdasarkan id
@@ -47,7 +50,7 @@ app.get("/:customer_id", async (req,res) => {
 
 //endpoint untuk menambahkan data transaksi baru
 app.post("/", auth, async (req,res) => {
-    let current = new Date().toISOString().split('T')[0]
+    let current = new Date().toISOString().split('T')[0] //memisah biar date nya saja
     let data = {
         customer_id: req.body.customer_id,
         waktu: current
@@ -56,11 +59,11 @@ app.post("/", auth, async (req,res) => {
     .then(result => {
         let lastID = result.transaksi_id
         detail = req.body.detail_transaksi
-        detail.foreach(element => {
+        detail.forEach(element => { //perulangan barang yang ada pada detail disimpan dalam element
             element.transaksi_id = lastID
         });
         console.log(detail);
-        detail_transaksi.bulkCreate(detail)
+        detail_transaksi.bulkCreate(detail) //bulkcreate create data lebih dari satu kali
         .then(result => {
             res.json({
                 message: "Data has been inserted"
@@ -82,8 +85,8 @@ app.post("/", auth, async (req,res) => {
 app.delete("/:transaksi_id", async (req, res) =>{
     let param = { transaksi_id: req.params.transaksi_id}
     try {
-        await detail_transaksi.destroy({where: param})
-        await transaksi.destroy({where: param})
+        await detail_transaksi.destroy({where: param}) //menghapus detail dulu ataua anak
+        await transaksi.destroy({where: param}) //baru selanjutnya hapus yang parent,  kalau insert sebaliknya
         res.json({
             message : "data has been deleted"
         })
